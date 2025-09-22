@@ -5,5 +5,5 @@ namespace Business.Interfaces;
 
 public interface ISessionService
 {
-    Task<ResponseResult> CreateSessionAsync(SessionDto form);
+    Task<IResponseResult> CreateSessionAsync(SessionDto form);
 }
