@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<DataContext>();
+//builder.Services.AddScoped<DataContext>();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
 //Här lägger vi repositories
