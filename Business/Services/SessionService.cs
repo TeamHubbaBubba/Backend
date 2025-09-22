@@ -11,7 +11,7 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
     {
         var sessionEntities = await _sessionRepository.GetAllAsync();
 
-        if (sessionEntities == null)
+        if (sessionEntities == null || sessionEntities.Count() <= 0)
             return ResponseResult.NotFound("No Sessions found");
 
         var sessions = sessionEntities.Select(SessionFactory.EntityToModel);
