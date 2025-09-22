@@ -10,5 +10,5 @@ public class SessionModel
     public int MaxParticipants { get; set; }
     public int CurrentParticipants { get; set; }
     [Column(TypeName = "datetime2")]
-    public DateTime BookedTime { get; set; }
+    public DateTime Date { get; set; }
 }
