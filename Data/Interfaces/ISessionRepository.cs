@@ -1,5 +1,8 @@
-﻿namespace Data.Interfaces;
+﻿using Data.Entities;
+using Data.Repositories;
 
-public interface ISessionRepository
+namespace Data.Interfaces;
+
+public interface ISessionRepository : IBaseRepository<SessionEntity>
 {
 }
