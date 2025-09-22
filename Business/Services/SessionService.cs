@@ -6,18 +6,19 @@ using Data.Entities;
 using Data.Interfaces;
 using System.Diagnostics;
 namespace Business.Services;
-public class SessionService(ISessionRepository sessionRepository) : ISessionService
+public class SessionService(ISessionRepository sessionRepository, IResponseResult responseResult) : ISessionService
 {
     private readonly ISessionRepository _sessionRepository = sessionRepository;
+    private readonly IResponseResult _responseResult = responseResult;
 
 
     //Create session method
 
-    public async Task<ResponseResult> CreateSessionAsync(SessionDto form)
+    public async Task<IResponseResult> CreateSessionAsync(SessionDto form)
     {
         if (form == null)
         {
-            return ResponseResult.BadRequest("Invalid form");
+            return _responseResult.BadRequest("Invalid form");
         }
 
         try
@@ -26,13 +27,13 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
             var result = await _sessionRepository.CreateAsync(sessionEntity);
 
             if (result == null)
-                return ResponseResult.BadRequest("Enter all required fields.");
+                return _responseResult.BadRequest("Enter all required fields.");
 
             return ResponseResult<SessionEntity>.Ok(result);
         }
         catch
         {
-            return ResponseResult.Error("Failed to create session");
+            return _responseResult.Error("Failed to create session");
         }
     }
 }
