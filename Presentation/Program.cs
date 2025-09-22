@@ -5,6 +5,8 @@ using Business.Services;
 using Microsoft.EntityFrameworkCore;
 using Data.Interfaces;
 using Data.Repositories;
+using Business.Models;
+using Business.Factories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,8 @@ builder.Services.AddScoped<ISessionRepository, SessionRespository>();
 
 //Här lägger vi services
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IResponseResult, ResponseResult>();
+builder.Services.AddScoped<ISessionFactory, SessionFactory>();
 
 var app = builder.Build();
 
