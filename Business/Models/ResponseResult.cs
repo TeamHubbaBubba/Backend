@@ -3,33 +3,33 @@ using Business.Interfaces;
 
 namespace Business.Models;
 
-public abstract class ResponseResult : IResponseResult
+public abstract class ResponseResult
 {
     public bool Success { get; protected set; }
     public int StatusCode { get; protected set; }
     public string? ResultMessage { get; protected set; }
 
-    public ResponseResult Ok()
+    public static ResponseResult Ok()
     {
         return new SuccessResult(200);
     }
 
-    public ResponseResult BadRequest(string message)
+    public static ResponseResult BadRequest(string message)
     {
         return new ErrorResult(400, message);
     }
 
-    public ResponseResult NotFound(string message)
+    public static ResponseResult NotFound(string message)
     {
         return new ErrorResult(404, message);
     }
 
-    public ResponseResult AlreadyExists(string message)
+    public static ResponseResult AlreadyExists(string message)
     {
         return new ErrorResult(409, message);
     }
 
-    public ResponseResult Error(string message)
+    public static ResponseResult Error(string message)
     {
         return new ErrorResult(500, message);
     }

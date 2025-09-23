@@ -6,10 +6,11 @@ namespace Business.Factories;
 public class SessionFactory : ISessionFactory
 {
     //Cast Entity to Model
-    public SessionModel ToModel(SessionEntity entity)
+    public SessionModel EntityToModel(SessionEntity entity)
     {
         var model = new SessionModel
         {
+            Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
             MaxParticipants = entity.MaxParticipants,

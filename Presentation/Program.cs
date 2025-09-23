@@ -22,7 +22,6 @@ builder.Services.AddScoped<ISessionRepository, SessionRespository>();
 
 //Här lägger vi services
 builder.Services.AddScoped<ISessionService, SessionService>();
-builder.Services.AddScoped<IResponseResult, ResponseResult>();
 builder.Services.AddScoped<ISessionFactory, SessionFactory>();
 
 var app = builder.Build();
