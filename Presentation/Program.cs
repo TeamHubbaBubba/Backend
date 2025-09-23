@@ -18,7 +18,6 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configura
 
 //Här lägger vi repositories
 builder.Services.AddScoped<ISessionRepository, SessionRespository>();
-builder.Services.AddScoped<IResponseResult, ResponseResult>();
 
 //Här lägger vi services
 builder.Services.AddScoped<ISessionService, SessionService>();
