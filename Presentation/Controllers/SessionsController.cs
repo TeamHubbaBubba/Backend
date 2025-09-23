@@ -32,11 +32,8 @@ public class SessionsController(ISessionService sessionService) : ControllerBase
         }
         //This part cast the ResponseResult to ResponseResult<SessionModel> to access the Data property
         //Then we return the data(model) not the whole ResponseResult
-        if (result is ResponseResult<SessionModel> && result.Success)
-        {
-            var data = (result as ResponseResult<SessionModel>)?.Data;
-            return Ok(data);
-        }
+        if (result.Success)
+            return Ok(result);
 
         //Safeproof - should never happen that we get a true result.Success but not a ResponseResult<T>
         return StatusCode(500, new { message = "An unexpected error occurred." });
