@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /Presentation/appsettings.json
 /Presentation/appsettings.Development.json
 /Data/Contexts/DataContextFactory.cs
+/Data/appsettings.json
