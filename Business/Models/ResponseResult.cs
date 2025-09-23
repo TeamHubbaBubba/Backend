@@ -1,4 +1,6 @@
 ﻿
+using Business.Interfaces;
+
 namespace Business.Models;
 public abstract class ResponseResult
 {
@@ -34,7 +36,7 @@ public abstract class ResponseResult
 public class ResponseResult<T> : ResponseResult
 {
     public T? Data { get; private set; }
-    
+
     public static ResponseResult<T> Ok(T? data)
     {
         return new ResponseResult<T>
