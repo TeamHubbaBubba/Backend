@@ -5,7 +5,7 @@ namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SessionController(ISessionService sessionService) : ControllerBase
+    public class SessionsController(ISessionService sessionService) : ControllerBase
     {
         private readonly ISessionService _sessionService = sessionService;
 
