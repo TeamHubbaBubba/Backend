@@ -1,23 +1,34 @@
-﻿using Business.Interfaces;
 using Business.Models;
+using Business.Dtos;
 using Data.Entities;
+using Business.Interfaces;
 
 namespace Business.Factories;
-public class SessionFactory : ISessionFactory
+
+public static class SessionFactory
 {
-    //Cast Entity to Model
-    public SessionModel EntityToModel(SessionEntity entity)
+    public static SessionModel EntityToModel(SessionEntity entity) => new()
     {
-        var model = new SessionModel
+        Id = entity.Id,
+        Title = entity.Title,
+        Description = entity.Description,
+        MaxParticipants = entity.MaxParticipants,
+        CurrentParticipants = entity.CurrentParticipants,
+        Date = entity.Date
+    };
+  
+    public static SessionEntity ToEntity(SessionDto dto)
+    {
+
+        var entity = new SessionEntity
         {
-            Id = entity.Id,
-            Title = entity.Title,
-            Description = entity.Description,
-            MaxParticipants = entity.MaxParticipants,
-            CurrentParticipants = entity.CurrentParticipants,
-            Date = entity.Date
+            Title = dto.Title,
+            Description = dto.Description,
+            MaxParticipants = dto.MaxParticipants,
+            CurrentParticipants = dto.CurrentParticipants,
+            Date = dto.Date
         };
 
-        return model;
+        return entity;
     }
 }
