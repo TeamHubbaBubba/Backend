@@ -1,8 +1,10 @@
 using Business.Models;
 using Business.Dtos;
 using Data.Entities;
+using Business.Interfaces;
 
 namespace Business.Factories;
+
 public static class SessionFactory
 {
     public static SessionModel EntityToModel(SessionEntity entity) => new()

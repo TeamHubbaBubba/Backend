@@ -12,6 +12,28 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
 {
     private readonly ISessionRepository _sessionRepository = sessionRepository;
 
+    public async Task<ResponseResult> GetSessionByIdAsync(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id)) 
+            return ResponseResult.BadRequest("Id not provided");
+
+        try 
+        {
+            var result = await _sessionRepository.GetAsync(x => x.Id == id);
+
+            if (result == null) 
+                return ResponseResult.NotFound("We couldn't find a session with that id in the database");
+
+            var model = SessionFactory.EntityToModel(result);
+            return ResponseResult<SessionModel>.Ok(model);
+        }
+        //Catches and propagates any exception that might occur in the repository layer
+        catch (Exception) 
+        {
+            return ResponseResult.Error("An unexpected error occurred. Please try again later.");
+        }
+    }
+    
     public async Task<ResponseResult> GetAllSessionsAsync()
     {
         var sessionEntities = await _sessionRepository.GetAllAsync();

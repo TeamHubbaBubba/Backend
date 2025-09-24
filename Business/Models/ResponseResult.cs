@@ -2,6 +2,7 @@
 using Business.Interfaces;
 
 namespace Business.Models;
+
 public abstract class ResponseResult
 {
     public bool Success { get; protected set; }
@@ -33,7 +34,8 @@ public abstract class ResponseResult
         return new ErrorResult(500, message);
     }
 }
-public class ResponseResult<T> : ResponseResult
+
+public class ResponseResult<T> : ResponseResult where T : class
 {
     public T? Data { get; private set; }
 
