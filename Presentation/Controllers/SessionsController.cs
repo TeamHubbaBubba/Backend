@@ -59,5 +59,16 @@ namespace Presentation.Controllers
                 ? Ok(createdSession.Success)
                 : BadRequest();
         }
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            var result = await _sessionService.DeleteSessionAsync(x => x.Id == id);
+
+            if (!result.Success)
+                return StatusCode(result.StatusCode, new { message = result.ResultMessage });
+
+            return Ok();
+        }
     }
 }
