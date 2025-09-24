@@ -36,14 +36,13 @@ namespace Presentation.Controllers
                     case 404:
                         return NotFound(result);
                     default:
-                        return StatusCode(result);
+                        return StatusCode(500 ,result);
                 }
 
             }
-            //This part cast the ResponseResult to ResponseResult<SessionModel> to access the Data property
-            //Then we return the data(model) not the whole ResponseResult
-            if (result.Success)
-                return Ok(result);
+            
+            return Ok(result);
+
         }
           
 
