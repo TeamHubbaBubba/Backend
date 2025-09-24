@@ -5,6 +5,7 @@ using Business.Services;
 using Microsoft.EntityFrameworkCore;
 using Data.Interfaces;
 using Data.Repositories;
+using Business.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
