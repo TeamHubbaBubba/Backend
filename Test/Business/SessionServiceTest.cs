@@ -10,14 +10,12 @@ namespace Test.Business;
 public class SessionServiceTest
 {
     private readonly Mock<ISessionRepository> _sessionsRepositoryMoq = new();
-    private readonly Mock<ISessionFactory> _sessionsFactoryMoq = new();
     private readonly ISessionService _sessionService;
 
     public SessionServiceTest()
     {
         _sessionService = new SessionService(
-            _sessionsRepositoryMoq.Object,
-            _sessionsFactoryMoq.Object
+            _sessionsRepositoryMoq.Object
         );
     }
 
@@ -86,9 +84,6 @@ public class SessionServiceTest
         _sessionsRepositoryMoq
             .Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<SessionEntity, bool>>>()))
             .ReturnsAsync(testSessionEntity);
-        _sessionsFactoryMoq
-            .Setup(factory => factory.EntityToModel(testSessionEntity))
-            .Returns(testSessionModel);
 
         //Act
         var result = await _sessionService.GetSessionByIdAsync(testSessionId);
