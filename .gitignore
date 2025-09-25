@@ -367,3 +367,5 @@ FodyWeavers.xsd
 /Data/appsettings.json
 /Data/Migrations
 
+/Data/Migrations/20250922090237_InitialConnection.cs
+/Data/Migrations/DataContextModelSnapshot.cs

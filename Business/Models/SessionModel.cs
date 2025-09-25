@@ -11,4 +11,5 @@ public class SessionModel
     public int CurrentParticipants { get; set; }
     [Column(TypeName = "datetime2")]
     public DateTime Date { get; set; }
+    public string? Intensity { get; set; }
 }
