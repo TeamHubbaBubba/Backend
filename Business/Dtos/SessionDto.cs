@@ -7,4 +7,5 @@ public class SessionDto
     public int MaxParticipants { get; set; }
     public int CurrentParticipants { get; set; }
     public DateTime Date { get; set; }
+    public string? Intensity { get; set; }
 }

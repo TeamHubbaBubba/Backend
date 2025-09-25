@@ -14,7 +14,8 @@ public static class SessionFactory
         Description = entity.Description,
         MaxParticipants = entity.MaxParticipants,
         CurrentParticipants = entity.CurrentParticipants,
-        Date = entity.Date
+        Date = entity.Date,
+        Intensity = entity.Intensity
     };
   
     public static SessionEntity ToEntity(SessionDto dto)
@@ -26,7 +27,8 @@ public static class SessionFactory
             Description = dto.Description,
             MaxParticipants = dto.MaxParticipants,
             CurrentParticipants = dto.CurrentParticipants,
-            Date = dto.Date
+            Date = dto.Date,
+            Intensity = dto.Intensity
         };
 
         return entity;
