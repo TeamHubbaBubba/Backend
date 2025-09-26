@@ -59,8 +59,8 @@ namespace Presentation.Controllers
                 : BadRequest();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateAsync([FromBody] string id, SessionDto form) 
+        [HttpPost("{id}")]
+        public async Task<IActionResult> UpdateAsync(string id, [FromBody] SessionDto form) 
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -69,7 +69,7 @@ namespace Presentation.Controllers
                 return NotFound(new { message = "Session not found" });
             var sessionToUpdateData = sessionToUpdate as ResponseResult<SessionModel>;
 
-            var sessionModel = sessionToUpdateData.Data as SessionModel;
+            var sessionModel = sessionToUpdateData!.Data as SessionModel;
             if (sessionModel == null)
                 return StatusCode(500, new { message = "An error occurred while processing your request." });
             // Update the properties of the session model with the new values from the form
