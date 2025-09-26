@@ -12,4 +12,5 @@ public interface ISessionService
     Task<ResponseResult> GetSessionByIdAsync(string id);
     Task<ResponseResult> GetAllSessionsAsync();
     Task<ResponseResult> CreateSessionAsync(SessionDto form);
+    Task<ResponseResult> UpdateSessionAsync(SessionModel session);
 }

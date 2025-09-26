@@ -89,4 +89,37 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
             return ResponseResult.Error("Failed to create session");
         }
     }
+
+    public async Task<ResponseResult> UpdateSessionAsync(SessionModel session)
+    {
+        if (session is null || string.IsNullOrWhiteSpace(session.Id))
+            return ResponseResult.BadRequest("Invalid session payload.");
+
+        var existingSession = await _sessionRepository.GetAsync(s => s.Id == session.Id);
+        if (existingSession == null)
+            return ResponseResult.NotFound("Session not found.");
+
+        if (session.MaxParticipants < existingSession.CurrentParticipants)
+            return ResponseResult.BadRequest("MaxParticipants cannot be less than CurrentParticipants.");
+
+
+        var targetDate = session.Date != default ? session.Date : existingSession.Date;
+
+        var updateSucceeded = await _sessionRepository.UpdateAsync(
+            s => s.Id == session.Id,
+            new SessionEntity
+            {
+                Id = session.Id,
+                Title = session.Title,
+                Description = session.Description,
+                MaxParticipants = session.MaxParticipants,
+                CurrentParticipants = existingSession.CurrentParticipants,
+                Date = targetDate
+            });
+
+        return updateSucceeded ? ResponseResult.Ok() : ResponseResult.Error("Failed to update session.");
+    }
+
+
+
 }

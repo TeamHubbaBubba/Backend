@@ -58,6 +58,32 @@ namespace Presentation.Controllers
                 ? Ok(createdSession.Success)
                 : BadRequest();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAsync([FromBody] string id, SessionDto form) 
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var sessionToUpdate = await _sessionService.GetSessionByIdAsync(id);
+            if (!sessionToUpdate.Success)
+                return NotFound(new { message = "Session not found" });
+            var sessionToUpdateData = sessionToUpdate as ResponseResult<SessionModel>;
+
+            var sessionModel = sessionToUpdateData.Data as SessionModel;
+            if (sessionModel == null)
+                return StatusCode(500, new { message = "An error occurred while processing your request." });
+            // Update the properties of the session model with the new values from the form
+            sessionModel.Title = form.Title;
+            sessionModel.Description = form.Description;
+            sessionModel.MaxParticipants = form.MaxParticipants;
+            sessionModel.CurrentParticipants = form.CurrentParticipants;
+            sessionModel.Date = form.Date;
+            sessionModel.Intensity = form.Intensity;
+            var updateResult = await _sessionService.UpdateSessionAsync(sessionModel);
+            if (!updateResult.Success)
+                return StatusCode(updateResult.StatusCode, new { message = updateResult.ResultMessage });
+            return Ok(updateResult);
+        } 
         
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(string id)
