@@ -20,5 +20,7 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
             new IdentityRole<Guid> { Id = userRoleId, Name = "User", NormalizedName = "USER" }
         );
 
+
+
     }
 }
