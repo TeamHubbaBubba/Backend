@@ -6,6 +6,7 @@ using Data.Entities;
 using Data.Interfaces;
 using Moq;
 using System.Linq.Expressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Test.Business;
 
@@ -383,5 +384,160 @@ public class SessionService_Tests
         Assert.Equal("Failed to create session", result.ResultMessage);
         repoMock.Verify(r => r.CreateAsync(It.IsAny<SessionEntity>()), Times.Once);
     }
-}
 
+    [Fact]
+    public async Task UpdateSessionAsync_ShouldReturnBadRequest_WhenSessionIsNull()
+    {
+        //Arrange
+
+
+        //Act
+        var result = await _sessionService.UpdateSessionAsync(null!);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.False(result.Success);
+        Assert.Equal(400, result.StatusCode); 
+    }
+
+    [Fact]
+    public async Task UpdateSessionAsync_ShouldReturnNotfound_WhenRepoMethodGetReturnsNull()
+    {
+        var testSessionModel = new SessionModel
+        {
+            Id = "testSessionId",
+            Title = "Test Session",
+            Description = "Test Description",
+            MaxParticipants = 10,
+            CurrentParticipants = 0,
+            Date = DateTime.Now
+        };
+        //Arrange
+        _repositoryMock
+            .Setup(r => r.GetAsync(It.IsAny<Expression<Func<SessionEntity, bool>>>()))
+            .ReturnsAsync((SessionEntity?)null);
+
+        //Act
+        var result = await _sessionService.UpdateSessionAsync(testSessionModel);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.False(result.Success);
+        Assert.Equal(404, result.StatusCode);     
+    }
+
+
+    [Theory]
+    [InlineData(5, 10, 10, 8)] // MaxParticipants < CurrentParticipants
+    public async Task UpdateSessionAsync_ShouldReturnBadRequest_WhenMaxParticipantsIsUnderCurrentParticipants(int newMaxPart, int newCurrPart, int oldMaxPart, int oldCurrPart)
+    {
+        var newSessionModel_test = new SessionModel
+        {
+            Id = "testSessionId",
+            Title = "Test Session",
+            Description = "Test Description",
+            MaxParticipants = newMaxPart,
+            CurrentParticipants = newCurrPart,
+            Date = DateTime.Now
+        };
+        var oldSessionEntity_test = new SessionEntity
+        {
+            Id = "testSessionId",
+            Title = "Test Session",
+            Description = "Test Description",
+            MaxParticipants = oldMaxPart,
+            CurrentParticipants = oldCurrPart,
+            Date = DateTime.Now
+        };
+        //Arrange
+        _repositoryMock
+            .Setup(r => r.GetAsync(It.IsAny<Expression<Func<SessionEntity, bool>>>()))
+            .ReturnsAsync(oldSessionEntity_test);
+
+        //Act
+        var result = await _sessionService.UpdateSessionAsync(newSessionModel_test);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.False(result.Success);
+        Assert.Equal(400, result.StatusCode);
+    }
+
+    [Fact] 
+    public async Task UpdateSessionAsync_ShouldReturnOk_WhenUpdateModelIsValidAndRepoDoesNotThrow()
+    {
+        var newSessionModel_test = new SessionModel
+        {
+            Id = "testSessionId_new",
+            Title = "Test Session_new",
+            Description = "Test Description_new",
+            MaxParticipants = 10,
+            CurrentParticipants = 8,
+            Date = DateTime.Now
+        };
+        var oldSessionEntity_test = new SessionEntity
+        {
+            Id = "testSessionId",
+            Title = "Test Session",
+            Description = "Test Description",
+            MaxParticipants = 15,
+            CurrentParticipants = 7,
+            Date = DateTime.Now
+        };
+        //Arrange
+        _repositoryMock
+            .Setup(r => r.GetAsync(It.IsAny<Expression<Func<SessionEntity, bool>>>()))
+            .ReturnsAsync(oldSessionEntity_test);
+        _repositoryMock
+            .Setup(r => r.UpdateAsync(It.IsAny<Expression<Func<SessionEntity, bool>>>(), It.IsAny<SessionEntity>()))
+            .ReturnsAsync(true);
+
+        //Act
+        var result = await _sessionService.UpdateSessionAsync(newSessionModel_test);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.True(result.Success);
+        Assert.Equal(200, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateSessionAsync_ShouldReturnError_WhenRepoReturnsFalse()
+    {
+        var newSessionModel_test = new SessionModel
+        {
+            Id = "testSessionId_new",
+            Title = "Test Session_new",
+            Description = "Test Description_new",
+            MaxParticipants = 10,
+            CurrentParticipants = 8,
+            Date = DateTime.Now,
+            Intensity = "Low"
+        };
+        var oldSessionEntity_test = new SessionEntity
+        {
+            Id = "testSessionId",
+            Title = "Test Session",
+            Description = "Test Description",
+            MaxParticipants = 15,
+            CurrentParticipants = 7,
+            Date = DateTime.Now,
+            Intensity = "High"
+        };
+        //Arrange
+        _repositoryMock
+            .Setup(r => r.GetAsync(It.IsAny<Expression<Func<SessionEntity, bool>>>()))
+            .ReturnsAsync(oldSessionEntity_test);
+        _repositoryMock
+            .Setup(r => r.UpdateAsync(It.IsAny<Expression<Func<SessionEntity, bool>>>(), It.IsAny<SessionEntity>()))
+            .ReturnsAsync(false);
+
+        //Act
+        var result = await _sessionService.UpdateSessionAsync(newSessionModel_test);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.False(result.Success);
+        Assert.Equal(500, result.StatusCode);
+    }
+}

@@ -114,7 +114,8 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
                 Description = session.Description,
                 MaxParticipants = session.MaxParticipants,
                 CurrentParticipants = existingSession.CurrentParticipants,
-                Date = targetDate
+                Date = targetDate,
+                Intensity = session.Intensity
             });
 
         return updateSucceeded ? ResponseResult.Ok() : ResponseResult.Error("Failed to update session.");
