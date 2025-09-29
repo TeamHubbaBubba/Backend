@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddScoped<DataContext>();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
-builder.Services.AddIdentity<UserEntity, IdentityRole>(options => 
+builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>(options => 
 {
     options.SignIn.RequireConfirmedEmail = false;
     options.User.RequireUniqueEmail = true;
@@ -45,6 +45,7 @@ builder.Services.AddScoped<ISessionRepository, SessionRespository>();
 
 //Här lägger vi services
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
