@@ -26,12 +26,12 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
             b.HasOne(x => x.Session)
             .WithMany(s => s.Bookings)
             .HasForeignKey(x => x.SessionId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
             b.HasOne(x => x.User)
             .WithMany(u => u.Bookings)
             .HasForeignKey(x => x.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         });
 
         builder.Entity<BookingEntity>()
