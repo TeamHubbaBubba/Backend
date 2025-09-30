@@ -12,6 +12,6 @@ namespace Data.Entities
         [ProtectedPersonalData]
         public string LastName { get; set; } = null!;
 
-        public virtual ICollection<BookingEntity> Bookings { get; set; } = new List<BookingEntity>();
+        public virtual ICollection<BookingEntity> Bookings { get; set; } = [];
     }
 }

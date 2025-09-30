@@ -21,7 +21,25 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
             new IdentityRole<Guid> { Id = userRoleId, Name = "User", NormalizedName = "USER" }
         );
 
+        builder.Entity<BookingEntity>(b =>
+        {
+            b.HasOne(x => x.Session)
+            .WithMany(s => s.Bookings)
+            .HasForeignKey(x => x.SessionId)
+            .OnDelete(DeleteBehavior.Cascade);
 
+            b.HasOne(x => x.User)
+            .WithMany(u => u.Bookings)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<BookingEntity>()
+            .HasIndex(x => new { x.UserId, x.SessionId })
+            .IsUnique();
+
+        builder.Entity<SessionEntity>()
+            .HasIndex(s => s.Date);
 
     }
 }
