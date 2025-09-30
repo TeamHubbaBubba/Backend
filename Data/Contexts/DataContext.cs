@@ -7,6 +7,7 @@ namespace Data.Contexts;
 public class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext<UserEntity, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<SessionEntity> Sessions { get; set; } = null!;
+    public DbSet<BookingEntity> Bookings { get; set; } = null!;
 
 
     protected override void OnModelCreating(ModelBuilder builder)
