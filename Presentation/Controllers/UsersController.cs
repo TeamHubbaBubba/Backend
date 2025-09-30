@@ -29,4 +29,14 @@ public class UsersController(IUserService userService) : ControllerBase
                 : BadRequest(createdUser.Result);
 
     }
+
+    [HttpGet]
+    public IActionResult GetUsers()
+    {
+        var users = _userService.GetUsersAsync();
+        return users.Result.Success
+            ? Ok(users.Result)
+            : BadRequest(users.Result);
+    }
+
 }
