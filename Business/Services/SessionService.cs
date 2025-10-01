@@ -113,7 +113,7 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
                 Title = session.Title,
                 Description = session.Description,
                 MaxParticipants = session.MaxParticipants,
-                CurrentParticipants = existingSession.CurrentParticipants,
+                CurrentParticipants = session.CurrentParticipants,
                 Date = targetDate,
                 Intensity = session.Intensity
             });

@@ -7,9 +7,10 @@ using Data.Interfaces;
 
 namespace Business.Services;
 
-public class BookingService(IBookingRepository bookingRepository) : IBookingService
+public class BookingService(IBookingRepository bookingRepository, ISessionService sessionService) : IBookingService
 {
     private readonly IBookingRepository _bookingRepository = bookingRepository;
+    private readonly ISessionService _sessionService = sessionService;
     
     public async Task<ResponseResult> CreateBookingAsync(string sessionId, Guid userId)
     {
@@ -18,18 +19,42 @@ public class BookingService(IBookingRepository bookingRepository) : IBookingServ
 
         try
         {
-            var booking = new BookingEntity
+            SessionModel updatedSession = new SessionModel();
+
+            var sessionResult = await _sessionService.GetSessionByIdAsync(sessionId);
+
+            if (sessionResult is ResponseResult<SessionModel> ok && ok.Success && ok.Data is { } sessionModel)
             {
-                UserId = userId,
-                SessionId = sessionId
-            };
+                if (sessionModel.CurrentParticipants == sessionModel.MaxParticipants)
+                {
+                    return ResponseResult.Error("Fully Booked Session!");
+                }
 
-            var result = await _bookingRepository.CreateAsync(booking);
+                sessionModel.CurrentParticipants = sessionModel.CurrentParticipants+1;
 
-            if (result == null)
-                return ResponseResult.Error("Unable to create booking. Please try again.");
+                updatedSession = sessionModel;
+            }
+            var updateResult = await _sessionService.UpdateSessionAsync(updatedSession);
 
-            return ResponseResult.Ok();
+            if (updateResult.Success)
+            {
+                var booking = new BookingEntity
+                {
+                    UserId = userId,
+                    SessionId = sessionId
+                };
+
+                var result = await _bookingRepository.CreateAsync(booking);
+
+                if (result == null)
+                    return ResponseResult.Error("Unable to create booking. Please try again.");
+
+
+                return ResponseResult.Ok();
+            }
+
+            return ResponseResult.Error("Unexpected error. Please try again.");
+
         }
         catch
         {

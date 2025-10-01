@@ -26,6 +26,6 @@ public class BookingsController(IBookingService bookingService,UserManager<UserE
 
         return createdBooking.Success
             ? Ok(createdBooking.Success)
-            : BadRequest();
+            : StatusCode(createdBooking.StatusCode, createdBooking.ResultMessage);
     }
 }
