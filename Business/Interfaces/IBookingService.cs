@@ -5,6 +5,6 @@ namespace Business.Interfaces
 {
     public interface IBookingService
     {
-        Task<ResponseResult> CreateBookingAsync(string sessionId);
+        Task<ResponseResult> CreateBookingAsync(string sessionId, Guid userId);
     }
 }
