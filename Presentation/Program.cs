@@ -49,6 +49,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+
 var app = builder.Build();
 
 app.MapOpenApi();

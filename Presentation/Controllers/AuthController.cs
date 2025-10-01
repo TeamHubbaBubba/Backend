@@ -1,3 +1,4 @@
+
 ﻿using Business.Dtos;
 using Business.Interfaces;
 using Data.Entities;
@@ -16,7 +17,6 @@ public class AuthController(IAuthService authService, UserManager<UserEntity> us
 {
     private readonly IAuthService _authService = authService;
     private readonly UserManager<UserEntity> _userManager = userManager;
-
 
     [HttpPost]
     [AllowAnonymous]
@@ -37,9 +37,10 @@ public class AuthController(IAuthService authService, UserManager<UserEntity> us
     [HttpPost("signout")]
     public new async Task<IActionResult> SignOut()
     {
-        await _authService.SignOut();
-        return Ok();
+          var result = await _authService.SignOutAsync();
+          if (!result.Success)
+              return StatusCode(500, result);
+              
+          return Ok(result.Success);
     }
-
-
 }
