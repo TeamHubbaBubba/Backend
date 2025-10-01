@@ -1,3 +1,4 @@
+﻿using Business.Dtos;
 ﻿using Business.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace Business.Interfaces
 {
     public interface IAuthService
     {
+        Task<bool> SignInAsync(UserSignInDto form);
+
         Task<ResponseResult> SignOutAsync();
     }
 }

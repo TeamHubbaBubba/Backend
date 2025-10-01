@@ -31,6 +31,7 @@ builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>(options =>
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
 
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/api/auth/login";
@@ -42,11 +43,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 //Här lägger vi repositories
 builder.Services.AddScoped<ISessionRepository, SessionRespository>();
-builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 //Här lägger vi services
-builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 var app = builder.Build();
 
@@ -63,6 +65,7 @@ app.UseHttpsRedirection();
 app.UseCors( x =>
     x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
 );
+
 
 app.UseAuthentication();
 app.UseAuthorization();
