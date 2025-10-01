@@ -82,7 +82,7 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
             if (result == null)
                 return ResponseResult.BadRequest("Enter all required fields.");
 
-            return ResponseResult<SessionEntity>.Ok(result);
+            return ResponseResult.Ok(); //Ändrade så vi bara skickar ok utan entitet
         }
         catch
         {
