@@ -29,7 +29,7 @@ public class AuthController(IAuthService authService, UserManager<UserEntity> us
         if (user == null)
             return Unauthorized(new { Message = "Invalid email or password." });
 
-        await _authService.SignIn(form);
+        await _authService.SignInAsync(form);
 
         return Ok();
     }
