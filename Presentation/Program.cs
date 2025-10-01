@@ -42,9 +42,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 //Här lägger vi repositories
 builder.Services.AddScoped<ISessionRepository, SessionRespository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 //Här lägger vi services
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

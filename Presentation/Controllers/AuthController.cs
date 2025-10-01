@@ -12,7 +12,8 @@ namespace Presentation.Controllers
     {
         private readonly IAuthService _authService = authService;
 
-        [HttpPost("signout")]
+        [Route("signout")]
+        [HttpPost]
         public async Task<IActionResult> SignOutAsync()
         {
             var result = await _authService.SignOutAsync();
