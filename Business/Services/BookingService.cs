@@ -9,7 +9,7 @@ public class BookingService(IBookingRepository bookingRepository) : IBookingServ
 {
     private readonly IBookingRepository _bookingRepository = bookingRepository;
 
-    public async Task<ResponseResult> GetBookedSessionsByUserIdAsync(Guid userId)
+    public async Task<ResponseResult> GetBookedSessionsByUserIdAsync(string userId)
     {
         var sessionEntities = await _bookingRepository.GetBookingsByUserIdAsync(userId);
 
