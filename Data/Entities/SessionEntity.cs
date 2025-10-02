@@ -14,4 +14,6 @@ public class SessionEntity
     [Column(TypeName ="datetime2")]
     public DateTime Date { get; set; }
     public string? Intensity { get; set; }
+
+    public virtual ICollection<BookingEntity> Bookings { get; set; } = [];
 }
