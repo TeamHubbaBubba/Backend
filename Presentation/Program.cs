@@ -43,12 +43,13 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 //Här lägger vi repositories
 builder.Services.AddScoped<ISessionRepository, SessionRespository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 //Här lägger vi services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IUserService, UserService>();
-
 
 var app = builder.Build();
 

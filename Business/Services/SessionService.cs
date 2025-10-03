@@ -83,7 +83,7 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
             if (result == null)
                 return ResponseResult.BadRequest("Enter all required fields.");
 
-            return ResponseResult<SessionEntity>.Ok(result);
+            return ResponseResult.Ok(); //Ändrade så vi bara skickar ok utan entitet
         }
         catch
         {
@@ -114,7 +114,7 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
                 Title = session.Title,
                 Description = session.Description,
                 MaxParticipants = session.MaxParticipants,
-                CurrentParticipants = existingSession.CurrentParticipants,
+                CurrentParticipants = session.CurrentParticipants,
                 Date = targetDate,
                 Intensity = session.Intensity
             });

@@ -41,7 +41,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
     #endregion
 
     // CREATE
-    public virtual async Task<TEntity> CreateAsync(TEntity entity)
+    public virtual async Task<TEntity?> CreateAsync(TEntity entity)
     {
         if (entity == null)
             return null!;
