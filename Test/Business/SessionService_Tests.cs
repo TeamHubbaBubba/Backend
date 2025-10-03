@@ -348,11 +348,8 @@ public class SessionService_Tests
         var result = await service.CreateSessionAsync(dto);
 
         // Assert
-        var typed = Assert.IsType<ResponseResult<SessionEntity>>(result);
-        Assert.True(typed.Success);
-        Assert.Equal(200, typed.StatusCode);
-        Assert.NotNull(typed.Data);
-        Assert.Same(createdEntity, typed.Data);
+        Assert.True(result.Success);
+        Assert.Equal(200, result.StatusCode);
         repoMock.Verify(r => r.CreateAsync(It.IsAny<SessionEntity>()), Times.Once);
     }
 

@@ -77,7 +77,6 @@ public class SessionService(ISessionRepository sessionRepository) : ISessionServ
         try
         {
             var sessionEntity = SessionFactory.ToEntity(form);
-            sessionEntity.CurrentParticipants = form.MaxParticipants;
             var result = await _sessionRepository.CreateAsync(sessionEntity);
 
             if (result == null)
