@@ -1,4 +1,4 @@
-﻿using Data.Entities;
+using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +8,6 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
 {
     public DbSet<SessionEntity> Sessions { get; set; } = null!;
     public DbSet<BookingEntity> Bookings { get; set; } = null!;
-
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -40,6 +39,5 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
 
         builder.Entity<SessionEntity>()
             .HasIndex(s => s.Date);
-
     }
 }

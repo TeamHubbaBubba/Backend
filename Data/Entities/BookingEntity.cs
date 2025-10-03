@@ -1,4 +1,3 @@
-﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +9,7 @@ public class BookingEntity
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [ForeignKey(nameof(User))]
-    public Guid UserId { get; set; } 
+    public Guid UserId { get; set; }
 
     [ForeignKey(nameof(Session))]
     public string SessionId { get; set; } = null!;

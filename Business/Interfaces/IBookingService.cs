@@ -1,10 +1,10 @@
-﻿using Business.Dtos;
 using Business.Models;
 
-namespace Business.Interfaces
+namespace Business.Interfaces;
+
+public interface IBookingService
 {
-    public interface IBookingService
-    {
-        Task<ResponseResult> CreateBookingAsync(string sessionId, Guid userId);
-    }
+    Task<ResponseResult> GetBookedSessionsByUserIdAsync(string userId);
+    Task<ResponseResult> CreateBookingAsync(string sessionId, Guid userId);
+
 }
