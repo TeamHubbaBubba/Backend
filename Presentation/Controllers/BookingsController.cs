@@ -12,9 +12,8 @@ namespace Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BookingsController(IBookingService bookingsService) : ControllerBase
+public class BookingsController(IBookingService bookingService, UserManager<UserEntity> userManager) : ControllerBase
 {
-    private readonly IBookingService _bookingsService = bookingsService; //Rename and delete duplicate in dev in VS, easier to do than in gitHub 
     private readonly IBookingService _bookingService = bookingService;
     private readonly UserManager<UserEntity> _userManager = userManager;
     
@@ -28,7 +27,7 @@ public class BookingsController(IBookingService bookingsService) : ControllerBas
             return Unauthorized(new { message = "User ID not found in token." });
         }
 
-        var result = await _bookingsService.GetBookedSessionsByUserIdAsync(userId);
+        var result = await _bookingService.GetBookedSessionsByUserIdAsync(userId);
         if (!result.Success)
             return StatusCode(result.StatusCode, new { message = result.ResultMessage });
 
