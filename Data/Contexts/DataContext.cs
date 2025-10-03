@@ -1,4 +1,4 @@
-﻿using Data.Entities;
+using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +20,6 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
             new IdentityRole<Guid> { Id = userRoleId, Name = "User", NormalizedName = "USER" }
         );
 
-
         builder.Entity<BookingEntity>(b =>
         {
             b.HasOne(x => x.Session)
@@ -40,8 +39,5 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
 
         builder.Entity<SessionEntity>()
             .HasIndex(s => s.Date);
-
-
-
     }
 }
