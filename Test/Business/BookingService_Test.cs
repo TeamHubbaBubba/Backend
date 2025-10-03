@@ -1,5 +1,5 @@
-﻿
-using Business.Interfaces;
+﻿using Business.Interfaces;
+using Business.Models;
 using Business.Services;
 using Data.Interfaces;
 using Moq;
@@ -9,11 +9,14 @@ namespace Test.Business;
 public class BookingService_Test
 {
     private readonly Mock<IBookingRepository> _repositoryMock;
+    private readonly Mock<ISessionService> _sessionServiceMock;
     private readonly IBookingService _bookingService;
     public BookingService_Test()
     {
         _repositoryMock = new Mock<IBookingRepository>();
-        _bookingService = new BookingService(_repositoryMock.Object);
+        _sessionServiceMock = new Mock<ISessionService>();
+
+        _bookingService = new BookingService(_repositoryMock.Object, _sessionServiceMock.Object);
     }
 
     //Create
@@ -62,6 +65,24 @@ public class BookingService_Test
         string sessionId = Guid.NewGuid().ToString();
         string bookingId = Guid.NewGuid().ToString();
         Guid userId = Guid.NewGuid();
+
+        _sessionServiceMock
+            .Setup(s => s.GetSessionByIdAsync(sessionId))
+            .ReturnsAsync(ResponseResult<SessionModel>.Ok(new SessionModel
+            {
+                Id = sessionId,
+                Title = "Test Session",
+                Description = "Test Description",
+                MaxParticipants = 10,
+                CurrentParticipants = 5,
+                Date = DateTime.UtcNow,
+                Intensity = "Medium"
+            }));
+
+        _sessionServiceMock
+            .Setup(s => s.UpdateSessionAsync(It.IsAny<SessionModel>()))
+            .ReturnsAsync(ResponseResult.Ok());
+
         _repositoryMock
             .Setup(r => r.CreateAsync(It.IsAny<Data.Entities.BookingEntity>()))
             .ReturnsAsync(new Data.Entities.BookingEntity { Id = bookingId, SessionId = sessionId, UserId = userId });

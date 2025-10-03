@@ -7,7 +7,7 @@ using Data.Interfaces;
 
 namespace Business.Services;
 
-public class BookingService(IBookingRepository bookingRepository) : IBookingService
+public class BookingService(IBookingRepository bookingRepository, ISessionService sessionService) : IBookingService
 {
     private readonly IBookingRepository _bookingRepository = bookingRepository;
     private readonly ISessionService _sessionService = sessionService;
