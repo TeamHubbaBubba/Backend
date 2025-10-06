@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors();
 //builder.Services.AddScoped<DataContext>();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
@@ -35,9 +35,12 @@ builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/api/auth/login";
-    options.AccessDeniedPath = "/api/auth/access-denied"; 
+    options.AccessDeniedPath = "/api/auth/access-denied";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     options.SlidingExpiration = true;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.HttpOnly = true;
 });
 
 
@@ -64,7 +67,7 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseCors( x =>
-    x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+    x.WithOrigins("http://localhost:5173", "https://localhost:7067").AllowAnyMethod().AllowAnyHeader().AllowCredentials()
 );
 
 
